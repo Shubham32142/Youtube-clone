@@ -13,7 +13,7 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    // Set isHidden to true only on the CardDetail page
+    // Seted isHidden to true only on the CardDetail page
     if (location.pathname.startsWith("/User/byChannel/")) {
       setIsOpen(false);
       setIsHidden(true);
