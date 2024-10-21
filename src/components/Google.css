@@ -1,0 +1,12 @@
+.sign-in-section {
+  display: flex;
+  align-items: center;
+}
+
+.sign-in-btn {
+  /* Add button styling */
+}
+
+.gmail-icon {
+  /* Styles for the Gmail icon after login */
+}

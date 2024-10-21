@@ -1,0 +1,36 @@
+.container {
+  width: 100vw;
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.Icon-header .icon {
+  margin: 0px 10px 0px 0px;
+  cursor: pointer;
+  padding: 10px;
+}
+.icon:hover {
+  border-radius: 50%;
+  background-color: rgba(128, 128, 128, 0.301);
+}
+.heading {
+  font-size: 20px;
+  font-family: "Arial", "Helvetica", sans-serif;
+}
+.in {
+  font-family: "Arial", "Helvetica", sans-serif;
+  vertical-align: super;
+  color: grey;
+  font-size: 10px;
+  margin-left: 2px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
