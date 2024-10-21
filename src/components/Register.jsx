@@ -16,7 +16,9 @@ export function Register() {
         email,
         password,
       });
-      window.location.href = "/signin"; // Redirect to sign-in after registration
+
+      localStorage.setItem("username: ", username);
+      window.location.href = "/login"; // Redirect to sign-in after registration
     } catch (error) {
       console.error("Registration failed", error);
     }

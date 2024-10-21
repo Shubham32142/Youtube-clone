@@ -1,6 +1,6 @@
-// SignIn.jsx
 import { useState } from "react";
 import axios from "axios";
+import "./Google.css"; // Import the CSS file
 
 export function Google() {
   const [email, setEmail] = useState("");
@@ -13,7 +13,8 @@ export function Google() {
         email,
         password,
       });
-      localStorage.setItem("token", response.data.token); // Store token
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("username", response.data.username); // Store token
       // Redirect to home or update state to show user name
       window.location.href = "/";
     } catch (error) {
@@ -22,9 +23,9 @@ export function Google() {
   };
 
   return (
-    <div>
-      <h2>Sign In</h2>
-      <form onSubmit={handleLogin}>
+    <div className="signin-container">
+      <form onSubmit={handleLogin} className="signin-form">
+        <h2>Sign In</h2>
         <input
           type="email"
           placeholder="Email"

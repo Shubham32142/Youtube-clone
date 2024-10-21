@@ -15,10 +15,14 @@ export function Comments({ videoId, commentId }) {
   const comments = useSelector(selectComments);
   const [newComment, setNewComment] = useState("");
   const [editMode, setEditMode] = useState({ id: null, text: "" });
-
+  const [username, setUsername] = useState("");
   useEffect(() => {
     if (videoId) {
       dispatch(fetchAllComments(videoId));
+    }
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
     }
   }, [videoId, dispatch]);
 
@@ -34,7 +38,7 @@ export function Comments({ videoId, commentId }) {
       addComment({
         videoId,
         text: newComment,
-        userId: "User",
+        userId: username,
         commentId,
       })
     );
