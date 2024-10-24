@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Channel.css"; // Assuming you have a CSS file for styles
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-const Channel = ({ onClose }) => {
+
+const Channel = () => {
   const [name, setName] = useState("");
   const [handle, setHandle] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
@@ -13,16 +14,36 @@ const Channel = ({ onClose }) => {
   const [error, setError] = useState(""); // State for error messages
   const [success, setSuccess] = useState(""); // State for success messages
   const navigate = useNavigate();
-  // Get user ID from URL params
+  const userId = localStorage.getItem("userId"); // Get userId from localStorage
+  const { channelId } = useParams(); // Get channelId from URL params
+
+  // Effect to fetch channel data if the channelId exists
+  useEffect(() => {
+    const fetchChannelData = async () => {
+      if (channelId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/channel/${channelId}`
+          );
+          setChannel(response.data);
+          setName(response.data.name);
+          setHandle(response.data.handle);
+          setDescription(response.data.description);
+          setSubscribers(response.data.subscribers);
+        } catch (error) {
+          console.error("Error fetching channel data:", error);
+        }
+      }
+    };
+    fetchChannelData();
+  }, [channelId]);
+
   const handlePictureSelection = (event) => {
     const file = event.target.files[0];
     if (file) {
       setProfilePicture(file); // Store the file object for upload
     }
   };
-  function clickClose() {
-    navigate("/");
-  }
 
   const handleCreateChannel = async () => {
     setError(""); // Reset error state
@@ -33,6 +54,7 @@ const Channel = ({ onClose }) => {
     formData.append("handle", handle);
     formData.append("channelBanner", profilePicture);
     formData.append("subscribers", subscribers);
+    formData.append("userId", userId);
     formData.append("description", description);
 
     try {
@@ -45,13 +67,9 @@ const Channel = ({ onClose }) => {
           },
         }
       );
-      navigate("/");
       setChannel(response.data.channel); // Save channel data
       setSuccess(response.data.message); // Set success message
-      setName(""); // Clear form fields
-      setHandle("");
-      setDescription("");
-      setProfilePicture(null);
+      navigate(`/viewChannel/${response.data.channel.channelId}`); // Redirect to view channel
     } catch (error) {
       setError(error.response?.data?.message || "Something went wrong"); // Handle errors
     }
@@ -60,11 +78,9 @@ const Channel = ({ onClose }) => {
   return (
     <div className="channel-container">
       <div className="channel-modal">
-        <h2>Create Your Channel</h2>
-        {error && <div className="error-message">{error}</div>}{" "}
-        {/* Error message */}
-        {success && <div className="success-message">{success}</div>}{" "}
-        {/* Success message */}
+        <h2>{channel ? "Edit Your Channel" : "Create Your Channel"}</h2>
+        {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
         <div className="profile-picture-container">
           {profilePicture ? (
             <img
@@ -104,8 +120,7 @@ const Channel = ({ onClose }) => {
         </div>
         <div className="input-group">
           <label htmlFor="description">Description</label>
-          <input
-            type="textarea"
+          <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -114,9 +129,9 @@ const Channel = ({ onClose }) => {
         </div>
         <div className="modal-actions">
           <button className="create-button" onClick={handleCreateChannel}>
-            Create Channel
+            {channel ? "Update Channel" : "Create Channel"}
           </button>
-          <button className="cancel-button" onClick={clickClose}>
+          <button className="cancel-button" onClick={() => navigate("/")}>
             Cancel
           </button>
         </div>

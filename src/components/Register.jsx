@@ -1,4 +1,3 @@
-// Register.jsx
 import { useState } from "react";
 import axios from "axios";
 import "./Register.css"; // Importing the CSS for styling
@@ -7,18 +6,29 @@ export function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [hasChannel, setHasChannel] = useState(false); // State for checking if the user has a channel
+  const [channelId, setChannelId] = useState(""); // State to store the channel ID
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/User/register", {
+      // Register the user
+      const response = await axios.post("http://localhost:3000/User/register", {
         username,
         email,
         password,
       });
 
-      localStorage.setItem("username: ", username);
-      window.location.href = "/login"; // Redirect to sign-in after registration
+      // Store the username and user ID in local storage
+      localStorage.setItem("username", username);
+      const userId = response.data.userId; // Assuming the response includes the user ID
+      localStorage.setItem("userId", userId);
+
+      // Check if the user has a channel
+      await checkUserChannel(userId);
+
+      // Redirect to login page after registration
+      window.location.href = "/login";
     } catch (error) {
       console.error("Registration failed", error);
     }
@@ -32,7 +42,7 @@ export function Register() {
       if (data.hasChannel) {
         // Update state to show "View Channel" button
         setHasChannel(true);
-        // Store the channel ID if needed
+        // Store the channel ID
         setChannelId(data.channelId); // Assuming the response contains the channel ID
       } else {
         // Show "Create Channel" button
@@ -45,12 +55,8 @@ export function Register() {
 
   return (
     <div className="register-container">
-      {" "}
-      {/* Added the styling class */}
       <h2>Register</h2>
       <form onSubmit={handleRegister} className="register-form">
-        {" "}
-        {/* Added the styling class */}
         <div className="input-group">
           <label htmlFor="username">Username</label>
           <input
@@ -85,11 +91,27 @@ export function Register() {
           />
         </div>
         <button type="submit" className="register-btn">
-          {" "}
-          {/* Added the styling class */}
           Register
         </button>
       </form>
+      {hasChannel && (
+        <div>
+          <p>You have a channel! Channel ID: {channelId}</p>
+          <button
+            onClick={() => (window.location.href = `/viewChannel/${channelId}`)}
+          >
+            View Channel
+          </button>
+        </div>
+      )}
+      {!hasChannel && (
+        <div>
+          <p>You do not have a channel yet.</p>
+          <button onClick={() => (window.location.href = "/createChannel")}>
+            Create Channel
+          </button>
+        </div>
+      )}
     </div>
   );
 }

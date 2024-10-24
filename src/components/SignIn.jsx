@@ -4,24 +4,35 @@ import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export function SignIn() {
   const [username, setUsername] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [hasChannel, setHasChannel] = useState(false);
+  const [channelId, setChannelId] = useState("");
   const navigate = useNavigate();
-
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
       setUsername(storedUsername);
       const checkChannel = async () => {
         try {
-          const response = await fetch(`/channel/${storedUsername}`);
+          const response = await fetch(
+            `http://localhost:3000/channel/name/${storedUsername}`
+          );
+          // Adjust API endpoint as necessary
           const contentType = response.headers.get("content-type");
           if (contentType && contentType.includes("application/json")) {
             const data = await response.json();
             setHasChannel(data.hasChannel);
+            if (data.hasChannel) {
+              const channelResponse = await fetch(
+                `http://localhost:3000/channel/name/${storedUsername}`
+              );
+              const data = await channelResponse.json();
+              setChannelId(data.channelId);
+            }
           }
         } catch (error) {
           console.error("Error checking channel:", error);
@@ -44,7 +55,7 @@ export function SignIn() {
   };
 
   const handleViewChannel = () => {
-    navigate(`/viewChannel`);
+    navigate(`/viewChannel/${channelId}`);
   };
 
   const handleCreateChannel = () => {

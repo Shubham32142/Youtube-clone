@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import {
   faHome,
   faHistory,
@@ -27,7 +28,10 @@ export function UserSidebar({ isOpen }) {
     <div className={`sidebar ${isOpen ? "open1" : "collapsed1"}`}>
       <ul className="sidebar-section">
         <li className="sidebar-item active">
-          <FontAwesomeIcon icon={faHome} /> <p>Home</p>
+          <FontAwesomeIcon icon={faHome} />{" "}
+          <Link to="/">
+            <p>Home</p>
+          </Link>
         </li>
         <li className="sidebar-item">
           <FontAwesomeIcon icon={faTv} /> <p>Shorts</p>

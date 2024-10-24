@@ -27,7 +27,8 @@ export function Sidebar({ isOpen }) {
     <div className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
       <ul className="sidebar-section">
         <li className="sidebar-item active">
-          <FontAwesomeIcon icon={faHome} /> <p>Home</p>
+          <FontAwesomeIcon icon={faHome} />
+          <p>Home</p>
         </li>
         <li className="sidebar-item">
           <FontAwesomeIcon icon={faTv} /> <p>Shorts</p>

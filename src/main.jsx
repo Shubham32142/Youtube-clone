@@ -11,6 +11,7 @@ import { Register } from "./components/Register.jsx";
 import { CardDetail } from "./components/CardDetail.jsx";
 import Channel from "./components/Channel.jsx";
 import { SignIn } from "./components/SignIn.jsx";
+import ViewChannel from "./components/ViewChannel.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const appRouter = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "/viewChannel/:channelId",
+        element: <ViewChannel />,
       },
     ],
   },
