@@ -5,8 +5,15 @@ import { Search } from "./Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SignIn } from "./SignIn";
 import "./Header.css";
+import { Categories } from "./Categories";
 
-export function Header({ isOpen, toggleBar }) {
+export function Header({
+  isOpen,
+  toggleBar,
+  setQuery,
+  selectedCategory,
+  onCategorySelect,
+}) {
   const menuIcon = <FontAwesomeIcon icon={faBars} size="xl" />;
   const youtubeIcon = (
     <FontAwesomeIcon icon={faYoutube} style={{ color: "#d43725" }} size="xl" />
@@ -22,9 +29,13 @@ export function Header({ isOpen, toggleBar }) {
           <span className="heading">{youtubeIcon} YouTube</span>
           <span className="in">IN</span>
         </div>
-        <Search />
+        <Search setQuery={setQuery} />
         <SignIn onClick={toggleBar} isOpen={isOpen} />
       </div>
+      <Categories
+        selectedCategory={selectedCategory}
+        onCategorySelect={onCategorySelect}
+      />
     </div>
   );
 }

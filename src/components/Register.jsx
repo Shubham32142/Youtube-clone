@@ -24,6 +24,25 @@ export function Register() {
     }
   };
 
+  const checkUserChannel = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/channel/${userId}`);
+      const data = await response.json();
+
+      if (data.hasChannel) {
+        // Update state to show "View Channel" button
+        setHasChannel(true);
+        // Store the channel ID if needed
+        setChannelId(data.channelId); // Assuming the response contains the channel ID
+      } else {
+        // Show "Create Channel" button
+        setHasChannel(false);
+      }
+    } catch (error) {
+      console.error("Error checking channel:", error);
+    }
+  };
+
   return (
     <div className="register-container">
       {" "}

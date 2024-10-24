@@ -2,18 +2,22 @@ import "./App.css";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 import { useState, useEffect } from "react";
-import allUsers from "./components/allUsers";
 import { Outlet, useLocation } from "react-router-dom";
 import { UserSidebar } from "./components/UserSidebar";
+import { Cards } from "./components/Cards";
 
 function App() {
-  const { loading, error } = allUsers();
   const [isOpen, setIsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const location = useLocation();
+  const [query, setQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
 
   useEffect(() => {
-    // Seted isHidden to true only on the CardDetail page
     if (location.pathname.startsWith("/User/byChannel/")) {
       setIsOpen(false);
       setIsHidden(true);
@@ -23,12 +27,7 @@ function App() {
     }
   }, [location.pathname]);
 
-  if (loading) return <p>Loading....</p>;
-  if (error) return <p>Error: {error}</p>;
-
   const toggleBar = () => {
-    // Toggle sidebar visibility only if we are not on the CardDetail page
-
     setIsOpen((prev) => !prev);
   };
 
@@ -38,15 +37,25 @@ function App() {
         isHidden ? "hidden" : ""
       }`}
     >
-      <Header isOpen={isOpen} toggleBar={toggleBar} />
+      <Header
+        isOpen={isOpen}
+        toggleBar={toggleBar}
+        setQuery={setQuery}
+        selectedCategory={selectedCategory}
+        onCategorySelect={handleCategorySelect}
+      />
       {location.pathname.startsWith("/User/byChannel/") ? (
-        <UserSidebar isOpen={isOpen} /> // Render User Sidebar
+        <UserSidebar isOpen={isOpen} />
       ) : (
-        <Sidebar isOpen={isOpen} /> // Render Main Sidebar
+        <Sidebar isOpen={isOpen} />
       )}
-
       <div className="appcontainer">
         <Outlet />
+        {/* Only render Cards on the root path or other specific paths */}
+        {location.pathname === "/" && (
+          <Cards query={query} selectedCategory={selectedCategory} />
+        )}
+        {/* You can add more conditions here if you want to show Cards on other paths */}
       </div>
     </div>
   );

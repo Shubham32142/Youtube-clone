@@ -84,7 +84,7 @@ export function Comments({ videoId, commentId }) {
               />
               <div>
                 <span className="comment-user">@{comment.userId}</span>
-                <span className="comment-timestamp">1 month ago</span>
+                <span className="comment-timestamp"></span>
               </div>
             </div>
 

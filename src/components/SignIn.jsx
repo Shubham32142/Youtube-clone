@@ -1,48 +1,91 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import { useEffect, useState } from "react";
+
 export function SignIn() {
   const [username, setUsername] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [hasChannel, setHasChannel] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
       setUsername(storedUsername);
+      const checkChannel = async () => {
+        try {
+          const response = await fetch(`/channel/${storedUsername}`);
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            setHasChannel(data.hasChannel);
+          }
+        } catch (error) {
+          console.error("Error checking channel:", error);
+        }
+      };
+      checkChannel();
     }
   }, []);
 
   const handleLogout = () => {
-    // Clear the username and token from localStorage
     localStorage.removeItem("username");
     localStorage.removeItem("token");
-
-    // Reset the username in state
+    setHasChannel(false);
     setUsername("");
-
-    // Optionally, redirect to home or login page
     window.location.href = "/";
   };
-  const menuDots = <FontAwesomeIcon icon={faEllipsisVertical} size="xl" />;
-  const userIcon = <FontAwesomeIcon icon={faCircleUser} />;
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleViewChannel = () => {
+    navigate(`/viewChannel`);
+  };
+
+  const handleCreateChannel = () => {
+    if (username) {
+      navigate(`/createChannel`);
+    } else {
+      alert("You must be logged in to create a channel.");
+    }
+  };
+
   return (
-    <>
-      <div className="Sign-Container">
-        <span className="menuDots">{menuDots}</span>
-        {username ? (
-          <>
-            <span className="userName">{username}</span>
-            <button onClick={handleLogout} className="log-out">
-              Logout
-            </button>
-          </>
-        ) : (
-          <Link to="/register" className="Sign-btn">
-            <span>{userIcon}</span>Sign in
-          </Link>
-        )}
-      </div>
-    </>
+    <div className="Sign-Container">
+      <FontAwesomeIcon icon={faEllipsisVertical} size="xl" />
+      {username ? (
+        <>
+          <button onClick={toggleDropdown} className="userName">
+            {username.charAt(0)}
+          </button>
+          {dropdownVisible && (
+            <div className="dropdown-menu">
+              {hasChannel ? (
+                <button onClick={handleViewChannel} className="create">
+                  View Channel
+                </button>
+              ) : (
+                <button onClick={handleCreateChannel} className="create">
+                  Create Channel
+                </button>
+              )}
+              <button onClick={handleLogout} className="log-out">
+                Logout
+              </button>
+            </div>
+          )}
+        </>
+      ) : (
+        <Link to="/register" className="Sign-btn">
+          <FontAwesomeIcon icon={faCircleUser} />
+          Sign in
+        </Link>
+      )}
+    </div>
   );
 }

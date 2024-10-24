@@ -38,7 +38,8 @@ export function CardDetail() {
           setLoading(false);
         }
       } catch (error) {
-        setError("Error fetching user data", error);
+        console.error("Error fetching user data:", error);
+        setError("Error fetching user data");
         setLoading(false);
       }
     }
@@ -50,7 +51,8 @@ export function CardDetail() {
         );
         setChannel(response.data);
       } catch (error) {
-        setError("Error fetching channel data", error);
+        console.error("Error fetching channel data:", error);
+        setError("Error fetching channel data");
       } finally {
         setLoading(false);
       }
@@ -89,7 +91,7 @@ export function CardDetail() {
                 </div>
                 <div className="actions">
                   <div className="like-dislike">
-                    <button className="Like">
+                    <button className="Like" aria-label="Like this video">
                       <FontAwesomeIcon
                         icon={faThumbsUp}
                         size="xl"
@@ -97,7 +99,7 @@ export function CardDetail() {
                       />
                       {user.likes}
                     </button>
-                    <button className="Dislike">
+                    <button className="Dislike" aria-label="Dislike this video">
                       <FontAwesomeIcon
                         icon={faThumbsDown}
                         size="xl"
@@ -106,7 +108,7 @@ export function CardDetail() {
                       {user.dislikes}
                     </button>
                   </div>
-                  <button className="Share">
+                  <button className="Share" aria-label="Share this video">
                     <FontAwesomeIcon
                       icon={faShare}
                       size="xl"
@@ -114,7 +116,7 @@ export function CardDetail() {
                     />
                     Share
                   </button>
-                  <button className="Download">
+                  <button className="Download" aria-label="Download this video">
                     <FontAwesomeIcon
                       icon={faDownload}
                       size="xl"
@@ -122,7 +124,7 @@ export function CardDetail() {
                     />
                     Download
                   </button>
-                  <button className="Save">
+                  <button className="Save" aria-label="Save this video">
                     <FontAwesomeIcon
                       icon={faBookmark}
                       size="xl"
@@ -130,7 +132,7 @@ export function CardDetail() {
                     />
                     Save
                   </button>
-                  <button className="3-dots">
+                  <button className="3-dots" aria-label="More options">
                     <FontAwesomeIcon icon={faEllipsis} size="xl" />
                   </button>
                 </div>

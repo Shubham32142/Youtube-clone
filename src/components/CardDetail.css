@@ -1,10 +1,9 @@
 .user-detail-container {
-  /* Set a max width for the card */
-
-  padding: 20px; /* Add padding */
-  background-color: #fff; /* White background */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  flex: 3; /* Main content takes up more space */
+  padding: 20px; /* Add padding for breathing room */
+  background-color: #fff; /* Ensure a white background */
+  border-radius: 10px; /* Rounded corners for aesthetics */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
 }
 
 .user-detail-container img.video {
@@ -54,8 +53,8 @@
 }
 
 .channel-banner {
-  width: 1500px; /* Full width of the container */
-  height: 800px; /* Set a fixed height for the banner */
+  width: 1300px; /* Full width of the container */
+  height: 730px; /* Set a fixed height for the banner */
   object-fit: cover;
   border-radius: 10px;
 }
@@ -160,7 +159,7 @@
 /* Add this in your CardDetail.css file */
 .card-detail-layout {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Distributes space between items */
   gap: 20px; /* Adds space between the main content and side videos */
 }
 
@@ -169,5 +168,17 @@
 }
 
 .side-videos-section {
-  flex: 1; /* Takes up less space */
+  flex: 1; /* Side section takes less space */
+  padding: 20px; /* Add padding to the side section */
+}
+.Container {
+  /* Adjust your container as necessary */
+  padding: 0; /* Remove padding if conflicting */
+  margin: 0; /* Ensure no margin that may cause overflow */
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap */
+  gap: 40px; /* Space between cards */
+  justify-content: flex-start; /* Aligns cards to the start */
 }

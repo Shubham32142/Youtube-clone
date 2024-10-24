@@ -9,6 +9,8 @@ import { Cards } from "./components/Cards.jsx";
 import { ErrorElement } from "./components/ErrorElement.jsx";
 import { Register } from "./components/Register.jsx";
 import { CardDetail } from "./components/CardDetail.jsx";
+import Channel from "./components/Channel.jsx";
+import { SignIn } from "./components/SignIn.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -16,10 +18,6 @@ const appRouter = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorElement />,
     children: [
-      {
-        path: "register",
-        element: <Register />,
-      },
       {
         path: "login",
         element: <Google />,
@@ -29,8 +27,16 @@ const appRouter = createBrowserRouter([
         element: <CardDetail />,
       },
       {
+        path: "/createChannel",
+        element: <Channel />,
+      },
+      {
         path: "",
         element: <Cards />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
   },

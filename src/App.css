@@ -8,11 +8,10 @@ body {
 }
 /* Adjust padding when sidebar is open */
 .appcontainer {
-  padding: 20px;
   display: flex;
-  /* justify-content: center; */
-  align-items: center;
-  margin-right: 40px;
+  flex-direction: column; /* Allow stacking vertically if needed */
+  padding: 30px;
+  margin-right: 40px; /* Adjust as needed */
   transition: margin-left 0.3s ease; /* Smooth transition */
 }
 
