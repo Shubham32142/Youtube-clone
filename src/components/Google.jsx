@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import "./Google.css"; // Import the CSS file
 
 export function Google() {
   const [email, setEmail] = useState("");
@@ -23,15 +22,19 @@ export function Google() {
   };
 
   return (
-    <div className="signin-container">
-      <form onSubmit={handleLogin} className="signin-form">
-        <h2>Sign In</h2>
+    <div className="flex justify-center w-screen bg-gray-100">
+      <form
+        onSubmit={handleLogin}
+        className="bg-white p-8 rounded-lg shadow-md w-80"
+      >
+        <h2 className="mb-6 text-center text-gray-800 text-2xl">Sign In</h2>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md text-base focus:border-blue-500 focus:outline-none focus:shadow-outline"
         />
         <input
           type="password"
@@ -39,9 +42,16 @@ export function Google() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md text-base focus:border-blue-500 focus:outline-none focus:shadow-outline"
         />
-        <button type="submit">Sign In</button>
+        <button
+          type="submit"
+          className="w-full p-3 bg-blue-500 text-white rounded-md text-base transition-colors duration-300 hover:bg-blue-600"
+        >
+          Sign In
+        </button>
       </form>
     </div>
   );
 }
+export default Google;

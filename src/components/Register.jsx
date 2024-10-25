@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import "./Register.css"; // Importing the CSS for styling
 
 export function Register() {
   const [username, setUsername] = useState("");
@@ -42,6 +41,7 @@ export function Register() {
       if (data.hasChannel) {
         // Update state to show "View Channel" button
         setHasChannel(true);
+        alert("email already exists");
         // Store the channel ID
         setChannelId(data.channelId); // Assuming the response contains the channel ID
       } else {
@@ -54,64 +54,78 @@ export function Register() {
   };
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
+    <div className="max-w-md mx-auto my-24 p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-center text-gray-800 text-2xl mb-6">Register</h2>
       <form onSubmit={handleRegister} className="register-form">
-        <div className="input-group">
-          <label htmlFor="username">Username</label>
+        <div className="mb-4">
+          <label
+            htmlFor="username"
+            className="block mb-1 font-bold text-gray-600"
+          >
+            Username
+          </label>
           <input
             type="text"
-            id="username" // Added id for accessibility
+            id="username"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            className="w-full p-3 border border-gray-300 rounded-md focus:border-red-500 focus:outline-none"
           />
         </div>
-        <div className="input-group">
-          <label htmlFor="email">Email</label>
+        <div className="mb-4">
+          <label htmlFor="email" className="block mb-1 font-bold text-gray-600">
+            Email
+          </label>
           <input
             type="email"
-            id="email" // Added id for accessibility
+            id="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full p-3 border border-gray-300 rounded-md focus:border-red-500 focus:outline-none"
           />
         </div>
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
+        <div className="mb-4">
+          <label
+            htmlFor="password"
+            className="block mb-1 font-bold text-gray-600"
+          >
+            Password
+          </label>
           <input
             type="password"
-            id="password" // Added id for accessibility
+            id="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="w-full p-3 border border-gray-300 rounded-md focus:border-red-500 focus:outline-none"
           />
         </div>
-        <button type="submit" className="register-btn">
+        <button
+          type="submit"
+          className="w-full p-3 bg-red-600 text-white rounded-md font-bold hover:bg-red-700"
+        >
           Register
         </button>
       </form>
       {hasChannel && (
-        <div>
-          <p>You have a channel! Channel ID: {channelId}</p>
+        <div className="mt-4">
+          <p className="text-gray-700">
+            You have a channel! Channel ID: {channelId}
+          </p>
           <button
             onClick={() => (window.location.href = `/viewChannel/${channelId}`)}
+            className="mt-2 p-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
           >
             View Channel
-          </button>
-        </div>
-      )}
-      {!hasChannel && (
-        <div>
-          <p>You do not have a channel yet.</p>
-          <button onClick={() => (window.location.href = "/createChannel")}>
-            Create Channel
           </button>
         </div>
       )}
     </div>
   );
 }
+export default Register;

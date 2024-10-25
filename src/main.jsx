@@ -4,32 +4,48 @@ import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./components/Store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Google } from "./components/Google.jsx";
 import { Cards } from "./components/Cards.jsx";
-import { ErrorElement } from "./components/ErrorElement.jsx";
-import { Register } from "./components/Register.jsx";
-import { CardDetail } from "./components/CardDetail.jsx";
-import Channel from "./components/Channel.jsx";
-import { SignIn } from "./components/SignIn.jsx";
-import ViewChannel from "./components/ViewChannel.jsx";
+import { lazy, Suspense } from "react";
+const ViewChannel = lazy(() => import("./components/ViewChannel.jsx"));
+const CardDetail = lazy(() => import("./components/CardDetail.jsx"));
+const Register = lazy(() => import("./components/Register.jsx"));
+const ErrorElement = lazy(() => import("./components/ErrorElement.jsx"));
+const Google = lazy(() => import("./components/Google.jsx"));
+const Channel = lazy(() => import("./components/Channel.jsx"));
 
 const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorElement />,
+    errorElement: (
+      <Suspense fallback={<div>Loading.Please wait...</div>}>
+        <ErrorElement />
+      </Suspense>
+    ),
     children: [
       {
         path: "login",
-        element: <Google />,
+        element: (
+          <Suspense fallback={<div>Loading.Please wait...</div>}>
+            <Google />
+          </Suspense>
+        ),
       },
       {
         path: "/User/byChannel/:channelId",
-        element: <CardDetail />,
+        element: (
+          <Suspense fallback={<div>Loading.Please wait...</div>}>
+            <CardDetail />
+          </Suspense>
+        ),
       },
       {
         path: "/createChannel",
-        element: <Channel />,
+        element: (
+          <Suspense fallback={<div>Loading.Please wait...</div>}>
+            <Channel />
+          </Suspense>
+        ),
       },
       {
         path: "",
@@ -37,11 +53,19 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register />,
+        element: (
+          <Suspense fallback={<div>Loading.Please wait...</div>}>
+            <Register />
+          </Suspense>
+        ),
       },
       {
         path: "/viewChannel/:channelId",
-        element: <ViewChannel />,
+        element: (
+          <Suspense fallback={<div>Loading.Please wait...</div>}>
+            <ViewChannel />
+          </Suspense>
+        ),
       },
     ],
   },

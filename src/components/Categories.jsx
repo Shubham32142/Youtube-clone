@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom"; // Import useLocation
-import "./Categories.css";
 import allUsers from "./allUsers"; // This is assumed to be a hook
 
 export function Categories({ selectedCategory, onCategorySelect }) {
@@ -22,7 +23,7 @@ export function Categories({ selectedCategory, onCategorySelect }) {
       setFiltered(users);
     }
   }, [users]);
-
+  console.log(users.categories);
   useEffect(() => {
     if (selectedCategory === "All") {
       // If "All" is selected, reset to show all users
@@ -59,20 +60,28 @@ export function Categories({ selectedCategory, onCategorySelect }) {
     !location.pathname.startsWith("/User/byChannel/");
 
   return (
-    <div className="categories-wrapper">
+    <div className="relative flex items-center">
       {shouldDisplayCategories && (
         <>
-          <button className="scroll-button left" onClick={scrollLeft}>
+          <button
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-400 text-white w-10 h-10 rounded-full flex items-center justify-center"
+            onClick={scrollLeft}
+          >
             &lt;
           </button>
-          <div className="categories-container" ref={containerRef}>
-            <div className="categories-list">
+          <div
+            className="flex overflow-x-auto scrollbar-hide whitespace-nowrap w-full px-4 py-2"
+            ref={containerRef}
+          >
+            <div className="flex gap-2 px-10">
               {/* Render categories dynamically */}
               {category.map((category, index) => (
                 <button
                   key={index}
-                  className={`category-button ${
-                    selectedCategory === category ? "selected" : ""
+                  className={`px-4 py-2 rounded-full text-sm cursor-pointer whitespace-nowrap ${
+                    selectedCategory === category
+                      ? "bg-black text-white"
+                      : "bg-gray-200"
                   }`}
                   onClick={() => onCategorySelect(category)}
                 >
@@ -81,7 +90,10 @@ export function Categories({ selectedCategory, onCategorySelect }) {
               ))}
             </div>
           </div>
-          <button className="scroll-button right" onClick={scrollRight}>
+          <button
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-400 text-white w-10 h-10 rounded-full flex items-center justify-center"
+            onClick={scrollRight}
+          >
             &gt;
           </button>
         </>

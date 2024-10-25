@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import "./CardDetail.css";
+import { Link, useParams } from "react-router-dom";
 import {
   faThumbsUp,
   faThumbsDown,
@@ -65,91 +64,109 @@ export function CardDetail() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="card-detail-layout">
-      <div className="user-detail-container">
+    <div className="flex flex-col lg:flex-row justify-between gap-5">
+      <div className="lg:flex-3 p-5 bg-white rounded-lg shadow-md w-full">
         {user && channel && (
           <>
-            <div className="channel-info">
-              <img
-                src={channel.channelBanner}
+            <div className="flex flex-col gap-4">
+              <video
+                src={user.videos}
                 alt="Channel Banner"
-                className="channel-banner"
+                className="w-full h-[230px] sm:h-[400px] md:h-[500px] lg:h-[730px] object-cover rounded-lg"
+                controls
               />
-              <h2>{user.title}</h2>
-              <div className="channel-details">
-                <div className="channel-details-banner">
-                  <img
-                    src={user.thumbnailUrl}
-                    alt={user.title}
-                    className="channel-thumbnail"
-                  />
-                  <div className="channel-subs">
-                    <h3>{channel.channelName}</h3>
-                    <p> {channel.subscribers} subscribers</p>
+              <h2 className="text-xl sm:text-2xl font-semibold">
+                {user.title}
+              </h2>
+              <div className="flex flex-col md:flex-row">
+                <div className="flex items-center gap-4 w-full">
+                  <Link to={`/viewChannel/${channelId}`}>
+                    <img
+                      src={user.thumbnailUrl}
+                      alt={user.title}
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-white object-cover"
+                    />
+                  </Link>
+                  <div className="flex flex-col">
+                    <h3 className="text-sm sm:text-lg font-semibold text-gray-700">
+                      {channel.channelName}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      {channel.subscribers} subscribers
+                    </p>
                   </div>
-                  <button className="Subscribe">Subscribe</button>
+                  <button className="mt-3 md:mt-0 md:ml-5 px-4 sm:px-6 py-2 sm:py-3 bg-black text-white font-bold rounded-full hover:opacity-80">
+                    Subscribe
+                  </button>
                 </div>
-                <div className="actions">
-                  <div className="like-dislike">
-                    <button className="Like" aria-label="Like this video">
+                <div className="flex flex-wrap justify-end md:flex-nowrap items-center gap-3 w-full py-3">
+                  <div className="flex items-center">
+                    <button
+                      className="flex items-center px-3 sm:px-4 py-1 sm:py-2 bg-gray-100 border border-gray-200 rounded-l-3xl hover:bg-gray-200"
+                      aria-label="Like this video"
+                    >
                       <FontAwesomeIcon
                         icon={faThumbsUp}
-                        size="xl"
-                        className="Icons"
+                        size="lg"
+                        className="pr-1 sm:pr-2"
                       />
                       {user.likes}
                     </button>
-                    <button className="Dislike" aria-label="Dislike this video">
+                    <button
+                      className="flex items-center px-3 sm:px-2 py-1 sm:py-2 bg-gray-100 border border-gray-200 rounded-r-3xl hover:bg-gray-200"
+                      aria-label="Dislike this video"
+                    >
                       <FontAwesomeIcon
                         icon={faThumbsDown}
-                        size="xl"
-                        className="Icons"
+                        size="lg"
+                        className="pr-1 sm:pr-2"
                       />
                       {user.dislikes}
                     </button>
                   </div>
-                  <button className="Share" aria-label="Share this video">
+                  <button className="flex items-center px-3 sm:px-4 py-1 sm:py-2 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200">
                     <FontAwesomeIcon
                       icon={faShare}
-                      size="xl"
-                      className="Icons"
+                      size="lg"
+                      className="pr-1 sm:pr-2"
                     />
                     Share
                   </button>
-                  <button className="Download" aria-label="Download this video">
+                  <button className="flex items-center px-3 sm:px-4 py-1 sm:py-2 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200">
                     <FontAwesomeIcon
                       icon={faDownload}
-                      size="xl"
-                      className="Icons"
+                      size="lg"
+                      className="pr-1 sm:pr-2"
                     />
                     Download
                   </button>
-                  <button className="Save" aria-label="Save this video">
+                  <button className="flex items-center px-3 sm:px-4 py-1 sm:py-2 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200">
                     <FontAwesomeIcon
                       icon={faBookmark}
-                      size="xl"
-                      className="Icons"
+                      size="lg"
+                      className="pr-1 sm:pr-2"
                     />
                     Save
                   </button>
-                  <button className="3-dots" aria-label="More options">
-                    <FontAwesomeIcon icon={faEllipsis} size="xl" />
+                  <button className="flex items-center px-2 py-1 sm:px-2 sm:py-2 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200">
+                    <FontAwesomeIcon icon={faEllipsis} size="lg" />
                   </button>
                 </div>
               </div>
-              <div className="views-description">
-                <span className="views"> {user.views} views</span>
-                <span className="upload">{user.uploadDate}</span>
-                <p> {user.description}</p>
+              <div className="w-full py-4 bg-gray-100 rounded-lg flex flex-col items-start">
+                <span className="text-gray-600 pr-4">{user.views} views</span>
+                <span className="text-gray-600">{user.uploadDate}</span>
+                <p className="text-gray-700 mt-2">{user.description}</p>
               </div>
             </div>
           </>
         )}
         {videoId && <Comments videoId={videoId} comments={user.comments} />}
       </div>
-      <div className="side-videos-section">
+      <div className="lg:flex-1 p-5 w-full lg:w-auto">
         <SideVideos />
       </div>
     </div>
   );
 }
+export default CardDetail;

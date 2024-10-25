@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import allUsers from "./allUsers";
-import "./SideVideos.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -40,29 +40,36 @@ export function SideVideos() {
     fetchUser();
   }, [channelId]);
 
-  if (loading) return <p>Loading.....</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="text-center text-blue-500">Loading.....</p>;
+  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
 
   return (
-    <div className="side-videos-container">
-      <div className="side-videos">
+    <div className="max-w-[400px] w-full mx-auto mr-24 flex flex-col">
+      <div className="flex flex-col gap-3">
         {users &&
           users.map((user) => (
-            <div key={user._id} className="video-card">
+            <div
+              key={user._id}
+              className="flex gap-2 pb-3 border-b border-gray-300"
+            >
               <Link
                 to={`/User/byChannel/${user.channelId}`}
                 key={user.channelId}
-                className="video-card-link"
+                className="flex no-underline text-black"
               >
                 <img
                   src={user.thumbnailUrl}
                   alt={user.title}
-                  className="video-thumbnail"
+                  className="w-full h-auto max-w-[168px] object-cover"
                 />
-                <div className="video-info">
-                  <p className="video-title">{user.title}</p>
-                  <p className="video-uploader">{channel?.channelName}</p>
-                  <p className="video-views">
+                <div className="flex-grow ml-2">
+                  <p className="text-sm font-bold mb-1 truncate">
+                    {user.title}
+                  </p>
+                  <p className="text-xs text-gray-500 mb-1">
+                    {channel?.channelName}
+                  </p>
+                  <p className="text-xs text-gray-400">
                     {user.views} views • 1 month ago
                   </p>
                 </div>

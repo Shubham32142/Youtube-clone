@@ -8,7 +8,6 @@ import {
   editComment,
   selectComments,
 } from "./commentSlice";
-import "./Comments.css";
 
 export function Comments({ videoId, commentId }) {
   const dispatch = useDispatch();
@@ -16,6 +15,7 @@ export function Comments({ videoId, commentId }) {
   const [newComment, setNewComment] = useState("");
   const [editMode, setEditMode] = useState({ id: null, text: "" });
   const [username, setUsername] = useState("");
+
   useEffect(() => {
     if (videoId) {
       dispatch(fetchAllComments(videoId));
@@ -62,57 +62,71 @@ export function Comments({ videoId, commentId }) {
   };
 
   return (
-    <div className="comment-container">
-      <form onSubmit={handleCommentSubmit} className="comment-input">
+    <div className="w-full p-6 bg-gray-100">
+      <form onSubmit={handleCommentSubmit} className="flex items-center mb-6">
         <input
           type="text"
           placeholder="Add a comment..."
           value={newComment}
           onChange={handleCommentChange}
+          className="w-full p-2 border-b border-gray-300 outline-none focus:border-blue-500 transition-colors"
         />
-        <button type="submit">Post</button>
+        <button
+          type="submit"
+          className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
+        >
+          Post
+        </button>
       </form>
 
-      <div className="comments">
+      <div className="space-y-4">
         {comments.map((comment) => (
-          <div className="comment" key={comment.commentId}>
-            <div className="comment-header">
+          <div
+            className="flex flex-col p-4 bg-white rounded-lg shadow-md"
+            key={comment.commentId}
+          >
+            <div className="flex items-center mb-2">
               <img
-                className="comment-avatar"
+                className="w-10 h-10 rounded-full mr-3"
                 src="https://imgs.search.brave.com/mYuKqM8YeN3Xo0rk0ioz3wRsMz8tw2c9O8pUk5uohlI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyLnBuZw"
                 alt="Avatar"
               />
               <div>
-                <span className="comment-user">@{comment.userId}</span>
-                <span className="comment-timestamp"></span>
+                <span className="font-semibold">@{comment.userId}</span>
+                <span className="text-sm text-gray-500 ml-2">
+                  {/* Timestamp */}
+                </span>
               </div>
             </div>
 
-            <div className="comment-content">
+            <div className="mb-2">
               {editMode.id === comment.commentId ? (
-                <form onSubmit={handleEditSubmit}>
+                <form onSubmit={handleEditSubmit} className="flex items-center">
                   <input
-                    className="update"
+                    className="flex-grow p-1 border-b border-gray-400 focus:border-blue-500 outline-none transition-colors"
                     value={editMode.text}
                     onChange={(e) =>
                       setEditMode({ ...editMode, text: e.target.value })
                     }
                   />
-                  <button type="submit" className="update-btn">
+                  <button
+                    type="submit"
+                    className="ml-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
                     Update
                   </button>
                 </form>
               ) : (
-                comment.text
+                <p>{comment.text}</p>
               )}
             </div>
 
-            <div className="comment-buttons">
-              <div className="like-button">
+            <div className="flex items-center gap-4 text-sm text-blue-600">
+              <div className="flex items-center cursor-pointer">
                 <span>👍</span>
-                <span className="like-count">{comment.likes || 0}</span>
+                <span className="ml-1">{comment.likes || 0}</span>
               </div>
-              <button>Reply</button>
+              <button className="hover:underline">Reply</button>
               <button onClick={() => handleEditComment(comment)}>Edit</button>
               <button onClick={() => handleDeleteComment(comment.commentId)}>
                 Delete

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import "./App.css";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
@@ -20,10 +21,8 @@ function App() {
   useEffect(() => {
     if (location.pathname.startsWith("/User/byChannel/")) {
       setIsOpen(false);
-      setIsHidden(true);
     } else {
       setIsOpen(true);
-      setIsHidden(false);
     }
   }, [location.pathname]);
 

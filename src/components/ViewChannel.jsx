@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import "./ViewChannel.css"; // Create a CSS file for styling
+import { VideoGrid } from "./ChannelVid";
 
 const ViewChannel = () => {
   const { channelId } = useParams(); // Get channelId from URL params
   const [channelData, setChannelData] = useState(null);
   const [videos, setVideos] = useState([]);
-  console.log(channelId);
+
   useEffect(() => {
     const fetchChannelData = async () => {
       try {
@@ -25,45 +26,37 @@ const ViewChannel = () => {
   }, [channelId]);
 
   if (!channelData) return <div>Loading...</div>; // Loading state
-
   return (
-    <div className="view-channel-container">
-      <div className="channel-header">
+    <div className="max-w-6xl mx-auto p-5">
+      <div className="flex items-center mb-8">
         <img
           src={channelData.channelBanner}
           alt="Profile"
-          className="profile-picture"
+          className="w-20 h-20 rounded-full mr-6"
         />
-        <div className="channel-info">
-          <h1 className="channel-name">{channelData.channelName}</h1>
-          <p className="subscriber-count">
-            {channelData.subscribers} subscribers
-          </p>
-          <button className="subscribe-button">Subscribe</button>
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold">{channelData.channelName}</h1>
+          <p className="text-gray-600">{channelData.subscribers} subscribers</p>
+          <p>{channelData.description}</p>
         </div>
+        <button className="bg-black text-white px-6 py-2 rounded-full">
+          Subscribe
+        </button>
       </div>
-      <div className="nav-bar">
-        <button className="nav-button">Home</button>
-        <button className="nav-button">Videos</button>
-        <button className="nav-button">Shorts</button>
+
+      <div className="flex space-x-4 mb-8">
+        <button className="bg-gray-100 text-gray-700 py-2 px-4 rounded hover:bg-black hover:text-white">
+          Home
+        </button>
+        <button className="bg-black text-white py-2 px-4 rounded hover:bg-black">
+          Videos
+        </button>
+        <button className="bg-gray-100 text-gray-700 py-2 px-4 rounded hover:bg-black hover:text-white">
+          Shorts
+        </button>
       </div>
-      {/* <div className="videos-section">
-        <h2>Videos</h2>
-        <div className="videos-grid">
-          {videos.map((video) => (
-            <div key={video._id} className="video-card">
-              <img
-                src={video.thumbnail}
-                alt={video.title}
-                className="video-thumbnail"
-              />
-              <h3 className="video-title">{video.title}</h3>
-              <p className="video-duration">{video.duration}</p>
-              <p className="video-views">{video.views} views</p>
-            </div>
-          ))}
-        </div>
-      </div> */}
+
+      <VideoGrid />
     </div>
   );
 };
