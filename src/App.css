@@ -10,10 +10,10 @@ body {
 /* Adjust padding when sidebar is open */
 .appcontainer {
   display: flex;
-  flex-direction: column; /* Allow stacking vertically if needed */
+  flex-direction: column;
   padding: 30px;
-  margin-right: 40px; /* Adjust as needed */
-  transition: margin-left 0.3s ease; /* Smooth transition */
+  margin-right: 40px;
+  transition: margin-left 0.3s ease;
 }
 
 /* When the sidebar is open */
@@ -29,9 +29,9 @@ body {
   margin-left: 20px;
 }
 .sidebar {
-  z-index: 1; /* Sidebar is behind the main content */
+  z-index: 1;
 }
 
 .appcontainer {
-  z-index: 2; /* Content is in front of the sidebar */
+  z-index: 2;
 }

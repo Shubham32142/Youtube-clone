@@ -26,7 +26,7 @@ export function Sidebar({ isOpen }) {
   return (
     <div
       className={`fixed bg-white h-[95vh] transition-all hover:scroll-smooth mt-12 ease-in-out duration-300 ${
-        isOpen ? "w-[250px]" : "w-[90px]"
+        isOpen ? "w-[210px]" : "w-[60px]"
       }`}
     >
       {/* Home, Shorts, Subscriptions Section */}

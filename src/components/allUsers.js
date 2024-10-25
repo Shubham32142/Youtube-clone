@@ -6,7 +6,7 @@ function allUsers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
-
+  console.log(token);
   useEffect(() => {
     async function fetchUsers() {
       if (!token) {
@@ -18,7 +18,7 @@ function allUsers() {
       try {
         const response = await fetch("http://localhost:3000/Users", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            authorization: `Bearer ${token}`,
           },
         });
 

@@ -41,7 +41,6 @@ export function Register() {
       if (data.hasChannel) {
         // Update state to show "View Channel" button
         setHasChannel(true);
-        alert("email already exists");
         // Store the channel ID
         setChannelId(data.channelId); // Assuming the response contains the channel ID
       } else {
